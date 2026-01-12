@@ -1,0 +1,12 @@
+<h1>Exercises list</h1>
+<form action="/" method="get">
+</form>
+<ul>
+    {% for category in exercises.keys() %}
+        {% for exercises in exercises.get(category) %}
+            <li>
+                {{ exercises }}
+            </li>
+        {% endfor %}
+    {% endfor %}
+</ul>
