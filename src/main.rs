@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use templates::home::HomeTemplate;
 use tower_http::services::ServeDir;
 
-use crate::templates::home::Category::{Back, Core, Legs};
+use crate::templates::home::Category::{Arms, Back, Core, Legs};
 use crate::templates::home::{Category, Exercise, Exercises};
 
 mod templates;
@@ -38,6 +38,17 @@ fn init_exercises() -> std::collections::HashMap<Category, Exercises> {
                 description: "todo".to_string(),
                 image: "todo".to_string(),
                 categories: vec![Legs, Core, Back],
+            }],
+        },
+    );
+    map.insert(
+        Arms,
+        Exercises {
+            items: vec![Exercise {
+                name: "Curl biceps".to_string(),
+                description: "todo".to_string(),
+                image: "todo".to_string(),
+                categories: vec![Arms],
             }],
         },
     );

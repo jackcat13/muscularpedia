@@ -5,18 +5,45 @@
 {% block content %}
 <!-- Your home page content here -->
 <h1>Exercises</h1>
-<form action="/" method="get">
-</form>
-<ul>
-    {% for category in exercises.keys() %}
-    <li> {{ category }} </li>
-        {% for exercises in exercises.get(category) %}
-        <ul>
-            <li>
-                {{ exercises }}
-            </li>
-        </ul>
+<div id="exercise-list">
+    <input class="search" placeholder="Filter exercises..."/>
+    <ul>
+        {% for category in exercises.keys() %}
+        <li class="category-group" data-category="{{ category }}">
+            <strong class="category-name">{{ category }}</strong>
+            <ul class="exercise-list">
+                {% for exercise in exercises.get(category) %}
+                <li class="exercise-item" data-name="{{ exercise }}">{{ exercise }}</li>
+                {% endfor %}
+            </ul>
+        </li>
         {% endfor %}
-    {% endfor %}
-</ul>
+    </ul>
+</div>
+
+<script>
+    const searchInput = document.querySelector('.search');
+    const categoryGroups = document.querySelectorAll('.category-group');
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+
+        categoryGroups.forEach(group => {
+            const categoryName = group.dataset.category.toLowerCase();
+            const exercises = group.querySelectorAll('.exercise-item');
+            let hasVisibleExercise = false;
+
+            exercises.forEach(exercise => {
+                const exerciseName = exercise.dataset.name.toLowerCase();
+                const matches = exerciseName.includes(query) || categoryName.includes(query);
+
+                exercise.style.display = matches ? '' : 'none';
+                if (matches) hasVisibleExercise = true;
+            });
+
+            group.style.display = hasVisibleExercise ? '' : 'none';
+        });
+    });
+</script>
+
 {% endblock %}

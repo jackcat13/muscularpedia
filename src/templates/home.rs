@@ -68,6 +68,7 @@ fn as_categories_string(categories: &Vec<Category>) -> String {
     let mut s = String::new();
     for category in categories {
         s += &category.to_string();
+        s += &", ";
     }
     s
 }
