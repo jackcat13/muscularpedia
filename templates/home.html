@@ -1,12 +1,22 @@
-<h1>Exercises list</h1>
+{% extends "base.html" %}
+
+{% block title %}Home - My App{% endblock %}
+
+{% block content %}
+<!-- Your home page content here -->
+<h1>Exercises</h1>
 <form action="/" method="get">
 </form>
 <ul>
     {% for category in exercises.keys() %}
+    <li> {{ category }} </li>
         {% for exercises in exercises.get(category) %}
+        <ul>
             <li>
                 {{ exercises }}
             </li>
+        </ul>
         {% endfor %}
     {% endfor %}
 </ul>
+{% endblock %}
