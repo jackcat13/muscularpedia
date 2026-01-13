@@ -10,3 +10,7 @@ tokio = { version = "1.49.0", features = ["full"] }
 serde = { version = "1.0.228", features = ["derive"] }
 strum = { version = "0.26", features = ["derive"] }
 tower-http = { version = "0.6", features = ["fs"] }
+fluent = "0.16"
+fluent-templates = "0.10"
+unic-langid = "0.9"
+filters = "0.4.0"

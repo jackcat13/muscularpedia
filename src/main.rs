@@ -1,19 +1,28 @@
-use askama::Template;
-use axum::{Router, response::Html, routing::get};
-use std::collections::HashMap;
-use templates::home::HomeTemplate;
-use tower_http::services::ServeDir;
-
+use crate::i18n::{i18n, Lang};
+use crate::middlewares::lang_middleware::lang_middleware;
 use crate::templates::home::Category::{Arms, Back, Core, Legs};
 use crate::templates::home::{Category, Exercise, Exercises};
+use askama::Template;
+use axum::{Router, middleware, response::Html, routing::get};
+use std::collections::HashMap;
+use templates::home::HomeTemplate;
+use tokio::task_local;
+use tower_http::services::ServeDir;
 
+mod i18n;
+mod middlewares;
 mod templates;
+
+task_local! {
+    pub static CURRENT_LANG: Lang;
+}
 
 #[tokio::main]
 async fn main() {
     let app = Router::new()
         .route("/", get(home))
-        .nest_service("/static", ServeDir::new("static"));
+        .nest_service("/static", ServeDir::new("static"))
+        .layer(middleware::from_fn(lang_middleware));
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
         .await
         .unwrap();
@@ -35,7 +44,7 @@ fn init_exercises() -> std::collections::HashMap<Category, Exercises> {
         Exercises {
             items: vec![Exercise {
                 name: "Squat".to_string(),
-                description: "todo".to_string(),
+                description: i18n("Exercise-Squat-Description").to_string(),
                 image: "todo".to_string(),
                 categories: vec![Legs, Core, Back],
             }],
@@ -46,7 +55,7 @@ fn init_exercises() -> std::collections::HashMap<Category, Exercises> {
         Exercises {
             items: vec![Exercise {
                 name: "Curl biceps".to_string(),
-                description: "todo".to_string(),
+                description: i18n("Exercise-Curl-Biceps-Description").to_string(),
                 image: "todo".to_string(),
                 categories: vec![Arms],
             }],

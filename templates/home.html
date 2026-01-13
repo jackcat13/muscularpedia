@@ -8,7 +8,7 @@
 <div id="exercise-list">
     <input class="search" placeholder="Filter exercises..."/>
     <ul>
-        {% for category in exercises.keys() %}
+        {% for category in self.sorted_categories() %}
         <li class="category-group" data-category="{{ category }}">
             <strong class="category-name">{{ category }}</strong>
             <ul class="exercise-list">
